@@ -31,6 +31,8 @@ Or install it yourself as:
 
 ### Rspec matchers
 
+## License
+
 ## Contributing
 
 1. Fork it ( http://github.com/crowdtap/elastic_model/fork )
