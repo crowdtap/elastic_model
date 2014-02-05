@@ -1,6 +1,7 @@
 # ElasticModel
 
-TODO: Write a gem description
+ElasticModel is a lightweight ruby gem to integrate Elasticsearch to your Rails
+models.
 
 ## Installation
 
@@ -18,7 +19,11 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Elasticsearch client setup
+
+### Rails model integration
+
+### Creation of indices and mappings
 
 ## Contributing
 
