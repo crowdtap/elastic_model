@@ -25,9 +25,15 @@ Or install it yourself as:
 
 ### Creation of indices and mappings
 
+## Testing
+
+### Test cleanup setup
+
+### Rspec matchers
+
 ## Contributing
 
-1. Fork it ( http://github.com/<my-github-username>/elastic_model/fork )
+1. Fork it ( http://github.com/crowdtap/elastic_model/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
