@@ -7,10 +7,10 @@ Gem::Specification.new do |spec|
   spec.name          = "elastic_model"
   spec.version       = ElasticModel::VERSION
   spec.authors       = ["Quentin Decock"]
-  spec.email         = ["quentin.decock@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.email         = ["quentind@crowdtap.com"]
+  spec.summary       = %q{Lightweight Elasticsearch integration for your Rails models}
+  spec.description   = %q{Lightweight Elasticsearch integration for your Rails models}
+  spec.homepage      = "http://www.github.com/crowdtap/elastic_model/"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
