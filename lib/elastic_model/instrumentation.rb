@@ -53,8 +53,6 @@ module ElasticModel::Instrumentation
       end
     end
 
-    private
-
     def self.mapping_for(field_name, options = {})
       class_variable_get('@@es_mappings_var')[field_name] = options
     end
