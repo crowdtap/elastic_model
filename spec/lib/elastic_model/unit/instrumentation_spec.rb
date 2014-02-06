@@ -65,20 +65,4 @@ describe ElasticModel::Instrumentation do
       subject.es_type.should == 'voila'
     end
   end
-
-  describe '.create_es_index' do
-    subject { test_class_1 }
-
-    it 'creates a new index if it does not already exist' do
-      $es.stubs(:indices => stub(:exists => false, :create => true))
-      subject.create_es_index
-      $es.indices.should have_received(:create).once
-    end
-
-    it 'does not create a new index if it does exist' do
-      $es.stubs(:indices => stub(:exists => true))
-      subject.create_es_index
-      $es.indices.should have_received(:create).never
-    end
-  end
 end
