@@ -4,6 +4,8 @@ require 'elastic_model'
 require 'mocha'
 require 'bourne'
 
+Mongoid.load!('./spec/config/mongoid.yml')
+
 RSpec.configure do |config|
   config.color_enabled = true
   config.include DefineConstantHelpers
