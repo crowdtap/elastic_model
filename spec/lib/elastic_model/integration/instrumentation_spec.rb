@@ -44,48 +44,50 @@ describe ElasticModel::Instrumentation do
     end
   end
 
-  context 'when mapping is not existing yet' do
-    before do
-      test_class.class_eval do
-        mapping_for :text_field,         { :type => 'string', :index => 'not_analyzed' }
-        mapping_for :integer_field,      { :type => 'integer' }
-        mapping_for :indexed_text_field, { :type => 'string', :analyzer => 'snowball' }
+  describe '.mapping_for & .create_es_mappings' do
+    context 'when mapping is not existing' do
+      before do
+        test_class.class_eval do
+          mapping_for :text_field,         { :type => 'string', :index => 'not_analyzed' }
+          mapping_for :integer_field,      { :type => 'integer' }
+          mapping_for :indexed_text_field, { :type => 'string', :analyzer => 'snowball' }
+        end
+      end
+
+      it 'creates mappings' do
+        test_class.create_es_index
+        test_class.create_es_mappings
+
+        test_class.should have_new_mapping_for(:text_field,         :type => 'string', :index    => 'not_analyzed', :omit_norms => true, :index_options => 'docs')
+        test_class.should have_new_mapping_for(:integer_field,      :type => 'integer')
+        test_class.should have_new_mapping_for(:indexed_text_field, :type => 'string', :analyzer => 'snowball')
       end
     end
 
-    it 'creates mappings' do
-      test_class.create_es_index
-      test_class.create_es_mappings
-
-      test_class.should have_new_mapping_for(:text_field,         :type => 'string', :index    => 'not_analyzed', :omit_norms => true, :index_options => 'docs')
-      test_class.should have_new_mapping_for(:integer_field,      :type => 'integer')
-      test_class.should have_new_mapping_for(:indexed_text_field, :type => 'string', :analyzer => 'snowball')
-    end
-  end
-
-  context 'mapping is existing' do
-    it "fails if there is a mapping conflict" do
-      begin
-        test_class.class_eval do
-          mapping_for :text_field, { :type => 'string',  :index => 'not_analyzed' }
-          mapping_for :text_field, { :type => 'integer', :index => 'not_analyzed' }
-          create_es_index
-          create_es_mappings
+    context 'when mapping is existing' do
+      it "fails if there is a mapping conflict" do
+        begin
+          test_class.class_eval do
+            mapping_for :text_field, { :type => 'string',  :index => 'not_analyzed' }
+            mapping_for :text_field, { :type => 'integer', :index => 'not_analyzed' }
+            create_es_index
+            create_es_mappings
+          end
+        rescue Elasticsearch::Transport::Transport::Errors::BadRequest => e
+          e.message.should =~ /MergeMappingException/
         end
-      rescue Elasticsearch::Transport::Transport::Errors::BadRequest => e
-        e.message.should =~ /MergeMappingException/
       end
-    end
 
-    it "does nothing if the mapping creation does not conflict" do
-      expect do
-        test_class.class_eval do
-          mapping_for :text_field, { :type => 'string', :index => 'not_analyzed' }
-          mapping_for :text_field, { :type => 'string', :index => 'not_analyzed' }
-          create_es_index
-          create_es_mappings
-        end
-      end.to_not raise_error
+      it "does nothing if the mapping creation does not conflict" do
+        expect do
+          test_class.class_eval do
+            mapping_for :text_field, { :type => 'string', :index => 'not_analyzed' }
+            mapping_for :text_field, { :type => 'string', :index => 'not_analyzed' }
+            create_es_index
+            create_es_mappings
+          end
+        end.to_not raise_error
+      end
     end
   end
 end
