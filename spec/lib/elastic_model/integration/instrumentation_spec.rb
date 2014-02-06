@@ -38,7 +38,7 @@ describe ElasticModel::Instrumentation do
       settings[test_class.es_index_name]["settings"]["index.number_of_shards"].to_i.should == 1
     end
 
-    it 'it does not raise error when index is already existing' do
+    it 'does not raise error when index is already existing' do
       test_class.create_es_index
       expect { test_class.create_es_index }.not_to raise_error
     end
@@ -77,7 +77,7 @@ describe ElasticModel::Instrumentation do
       end
     end
 
-    it "does nothing if the mapping already exists" do
+    it "does nothing if the mapping creation does not conflict" do
       expect do
         test_class.class_eval do
           mapping_for :text_field, { :type => 'string', :index => 'not_analyzed' }

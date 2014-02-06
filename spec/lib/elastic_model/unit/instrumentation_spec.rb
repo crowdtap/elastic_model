@@ -30,7 +30,7 @@ describe ElasticModel::Instrumentation do
       subject.es_index_name.should == 'foo_voila'
     end
 
-    it "ensure two classes are not sharing indices" do
+    it "ensures two classes are not sharing indices" do
       subject.es_index_name 'voila'
       test_class_2.es_index_name 'whatever'
       subject.es_index_name.should_not == test_class_2.es_index_name
