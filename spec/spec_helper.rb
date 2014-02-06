@@ -3,6 +3,7 @@ Dir["./spec/support/**/*.rb"].each {|f| require f}
 require 'elastic_model'
 require 'mocha'
 require 'bourne'
+require 'elastic_model/matchers'
 
 Mongoid.load!('./spec/config/mongoid.yml')
 
