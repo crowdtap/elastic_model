@@ -58,9 +58,9 @@ describe ElasticModel::Instrumentation do
         test_class.create_es_index
         test_class.create_es_mappings
 
-        test_class.should have_new_mapping_for(:text_field,         :type => 'string', :index    => 'not_analyzed', :omit_norms => true, :index_options => 'docs')
-        test_class.should have_new_mapping_for(:integer_field,      :type => 'integer')
-        test_class.should have_new_mapping_for(:indexed_text_field, :type => 'string', :analyzer => 'snowball')
+        test_class.should have_mapping_for(:text_field,         :type => 'string', :index    => 'not_analyzed', :omit_norms => true, :index_options => 'docs')
+        test_class.should have_mapping_for(:integer_field,      :type => 'integer')
+        test_class.should have_mapping_for(:indexed_text_field, :type => 'string', :analyzer => 'snowball')
       end
     end
 

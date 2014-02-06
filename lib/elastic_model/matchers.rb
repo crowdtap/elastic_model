@@ -1,5 +1,4 @@
-# TODO: This should be made accessible to gem users
-RSpec::Matchers.define :have_new_mapping_for do |field_name, hash|
+RSpec::Matchers.define :have_mapping_for do |field_name, hash|
   match do |model|
     @model = model
     @hash = hash
