@@ -4,10 +4,3 @@ development:
       database: elastic_model
       hosts:
         - localhost:27017
-
-test:
-  sessions:
-    default:
-      database: elastic_model
-      hosts:
-        - localhost:27017
