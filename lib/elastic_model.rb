@@ -1,5 +1,9 @@
-require "elastic_model/version"
+require 'rails'
+require 'mongoid'
+require 'elasticsearch'
 
-module ElasticModel
-  # Your code goes here...
-end
+require 'elastic_model/instrumentation'
+
+# TODO: error out if host is not defined
+log = ENV['debug'] ? true : false
+$es ||= Elasticsearch::Client.new(:host => 'localhost:9200', :log => log)
