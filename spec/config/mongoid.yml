@@ -1,0 +1,6 @@
+development:
+  sessions:
+    default:
+      database: elastic_model
+      hosts:
+        - localhost:27017
