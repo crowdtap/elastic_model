@@ -90,4 +90,21 @@ describe ElasticModel::Instrumentation do
       end
     end
   end
+
+  describe '.save_to_es!' do
+    it "saves to Elasticsearch always" do
+      test_class.class_eval do
+        create_es_index
+        create_es_mappings
+      end
+      instance = test_class.new
+
+      instance.save_to_es!
+      results = $es.get :index => test_class.es_index_name, :id => instance.id
+      results["_version"].to_i.should == 1
+      instance.save_to_es!
+      results = $es.get :index => test_class.es_index_name, :id => instance.id
+      results["_version"].to_i.should == 2
+    end
+  end
 end

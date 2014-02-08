@@ -56,5 +56,9 @@ module ElasticModel::Instrumentation
     def self.mapping_for(field_name, options = {})
       class_variable_get('@@es_mappings_var')[field_name] = options
     end
+
+    def save_to_es!
+      $es.index :index => self.class.es_index_name, :type => self.class.es_type, :id => self.id, :body => self.as_json
+    end
   end
 end
