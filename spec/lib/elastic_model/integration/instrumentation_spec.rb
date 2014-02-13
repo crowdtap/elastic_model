@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe ElasticModel::Instrumentation do
   around :each do |test|
-    if $es.indices.exists index: 'test_test_classes'
-      $es.indices.delete index: 'test_test_classes'
+    if $es.indices.exists index: 'development_test_classes'
+      $es.indices.delete index: 'development_test_classes'
     end
     test.run
-    if $es.indices.exists index: 'test_test_classes'
-      $es.indices.delete index: 'test_test_classes'
+    if $es.indices.exists index: 'development_test_classes'
+      $es.indices.delete index: 'development_test_classes'
     end
   end
 
