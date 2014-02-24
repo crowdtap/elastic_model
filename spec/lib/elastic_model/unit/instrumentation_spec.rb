@@ -13,15 +13,25 @@ describe ElasticModel::Instrumentation do
     end
   end
 
+  describe '.default_es_index_name' do
+    subject { test_class_1 }
+    before  { test_class_1.stubs(:name => "V2::Engagement::TestClass") }
+
+    it "returns the default elasticsearch index name" do
+      Rails.stubs(:env => 'foo')
+      subject.default_es_index_name.should == 'foo_test_classes'
+    end
+  end
+
   describe '.es_index_name' do
     subject { test_class_1 }
 
     before { test_class_1.stubs(:name => "V2::Engagement::TestClass") }
 
     it "returns the class name prefixed with the Rails environment by default" do
-      Rails.stubs(:env => 'foo')
+      test_class_1.stubs(:default_es_index_name => "blah")
       subject.es_index_name nil
-      subject.es_index_name.should == 'foo_test_classes'
+      subject.es_index_name.should == 'blah'
     end
 
     it "returns the set index name prefixed with the Rails environment when index name is defined" do

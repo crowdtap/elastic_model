@@ -7,6 +7,14 @@ module ElasticModel::Instrumentation
     class_variable_set('@@es_type_var',          nil)
     class_variable_set('@@es_mappings_var',      {} )
 
+    def self.base_class_name
+      self.name.split('::').last.underscore
+    end
+
+    def self.default_es_index_name
+      "#{Rails.env}_#{base_class_name.pluralize}"
+    end
+
     def self.es_index_name(value=nil)
       if value
         class_variable_set('@@es_index_name_var', value)
@@ -14,7 +22,7 @@ module ElasticModel::Instrumentation
         if class_variable_get('@@es_index_name_var')
           "#{Rails.env}_#{class_variable_get('@@es_index_name_var')}"
         else
-          "#{Rails.env}_#{base_class_name.pluralize}"
+          self.default_es_index_name
         end
       end
     end
@@ -33,10 +41,6 @@ module ElasticModel::Instrumentation
       else
         class_variable_get('@@es_type_var') ? class_variable_get('@@es_type_var') : base_class_name
       end
-    end
-
-    def self.base_class_name
-      self.name.split('::').last.underscore
     end
 
     def self.create_es_index
