@@ -94,7 +94,6 @@ module ElasticModel::Instrumentation
         :id    => self.id,
         :body  => body
       }
-      binding.pry
       if self.class.es_parent
         begin
           params[:parent]  = self.es_parent_id
