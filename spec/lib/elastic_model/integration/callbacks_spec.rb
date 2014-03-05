@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ElasticModel::Callbacks do
-  context 'persistance' do
+  describe 'persistance' do
     let(:test_class) do
       define_constant('test_class') do
         include Mongoid::Document
@@ -14,7 +14,7 @@ describe ElasticModel::Callbacks do
     end
     let(:test_instance) { test_class.new(:count => 1) }
 
-    context 'create' do
+    describe 'create' do
       it 'persists data to elasticsearch after it has persisted to the db' do
         test_instance.save
         res = $es.get :index => test_class.es_index_name, :type => test_class.es_type, :id => test_instance.id
@@ -23,7 +23,7 @@ describe ElasticModel::Callbacks do
       end
     end
 
-    context 'update' do
+    describe 'update' do
       it 'updates elasticserach document if the document has changed' do
         test_instance.save
         test_instance.count = 2
@@ -44,7 +44,7 @@ describe ElasticModel::Callbacks do
       end
     end
 
-    context 'destroy' do
+    describe 'destroy' do
       it 'destroys elasticsearch document after it destroys it from mongo' do
         test_instance.save
         test_instance.destroy

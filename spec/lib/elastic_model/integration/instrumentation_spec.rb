@@ -91,6 +91,37 @@ describe ElasticModel::Instrumentation do
     end
   end
 
+  describe '.es_mapping_options' do
+    before do
+      define_constant('parent_class') do
+        include Mongoid::Document
+        include ElasticModel::Instrumentation
+        es_index_name "test_classes"
+        es_type "parent_test_type"
+      end
+
+      test_class.class_eval do
+        belongs_to :parent_class
+        es_mapping_options({
+          :_parent => { :type => "parent_test_type" }
+        })
+        es_index_name "test_classes"
+      end
+      parent_class.create_es_index
+      parent_class.create_es_mappings
+
+      test_class.create_es_index
+      test_class.create_es_mappings
+    end
+
+    it "creates a mapping with the mapping options set" do
+      test_index = $es.indices.get_mapping :index => test_class.es_index_name
+      test_index[test_class.es_index_name][test_class.es_type].should_not be_nil
+      child_index = test_index[test_class.es_index_name][test_class.es_type]
+      child_index["_parent"].should == { "type" => "parent_test_type" }
+    end
+  end
+
   describe '.save_to_es!' do
     it "saves to Elasticsearch always" do
       test_class.class_eval do
