@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ElasticModel::Callbacks do
-  describe 'persistance' do
+  describe 'persistence' do
     let(:test_class) do
       define_constant('test_class') do
         include Mongoid::Document
