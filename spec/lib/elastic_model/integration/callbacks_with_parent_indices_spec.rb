@@ -82,7 +82,7 @@ describe ElasticModel::Callbacks do
         end
       end
 
-      it "raises an exception if the parent_id method is not implemented" do
+      it "raises an exception if the #es_parent_id method is not implemented" do
         test_instance = invalid_child_class.new(:count => 1, :parent_association => parent_instance)
         expect do
           test_instance.save!

@@ -2,11 +2,12 @@ module ElasticModel::Instrumentation
   extend ActiveSupport::Concern
 
   included do
-    class_variable_set('@@es_index_name_var',      nil)
-    class_variable_set('@@es_index_options_var',   {} )
-    class_variable_set('@@es_type_var',            nil)
-    class_variable_set('@@es_mappings_var',        {} )
-    class_variable_set('@@es_mapping_options_var', {} )
+    class_variable_set('@@es_index_name_var',      nil  )
+    class_variable_set('@@es_index_options_var',   {}   )
+    class_variable_set('@@es_type_var',            nil  )
+    class_variable_set('@@es_mappings_var',        {}   )
+    class_variable_set('@@es_mapping_options_var', {}   )
+    class_variable_set('@@es_parent_type_present', false)
 
     def self.base_class_name
       self.name.split('::').last.underscore
@@ -47,6 +48,7 @@ module ElasticModel::Instrumentation
     def self.es_mapping_options(options=nil)
       if options
         class_variable_set('@@es_mapping_options_var', options)
+        class_variable_set('@@es_parent_type_present', true) unless options[:_parent].nil?
       else
         class_variable_get('@@es_mapping_options_var')
       end
@@ -93,7 +95,7 @@ module ElasticModel::Instrumentation
         :id    => self.id,
         :body  => body
       }
-      if self.class.es_parent_present?
+      if self.class.has_es_parent?
         begin
           params[:parent]  = self.es_parent_id
           params[:routing] = self.es_parent_id
@@ -110,10 +112,8 @@ module ElasticModel::Instrumentation
 
     private
 
-    def self.es_parent_present?
-      es_index = $es.indices.get_mapping(:index => es_index_name)
-      es_type_mapping = es_index[es_index_name][es_type]
-      !es_type_mapping.nil? && !es_type_mapping["_parent"].nil?
+    def self.has_es_parent?
+      class_variable_get('@@es_parent_type_present')
     end
   end
 end

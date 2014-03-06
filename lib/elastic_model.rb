@@ -8,4 +8,4 @@ require 'elastic_model/callbacks'
 
 # TODO: error out if host is not defined
 log = ENV['debug'] ? true : false
-$es ||= Elasticsearch::Client.new(:host => 'localhost:19200', :log => log)
+$es ||= Elasticsearch::Client.new(:host => ENV['BOXEN_ELASTICSEARCH_URL'] || 'localhost:9200', :log => log)
