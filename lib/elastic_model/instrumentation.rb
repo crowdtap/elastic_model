@@ -66,7 +66,6 @@ module ElasticModel::Instrumentation
       }
 
       unless es_mapping_options.empty?
-        puts "here"
         params[:body][es_type.to_sym] = es_mapping_options
         $es.indices.put_mapping params
       end
@@ -94,12 +93,12 @@ module ElasticModel::Instrumentation
         :id    => self.id,
         :body  => body
       }
-      if self.class.es_parent
+      if self.class.es_parent_present?
         begin
           params[:parent]  = self.es_parent_id
           params[:routing] = self.es_parent_id
-        rescue NoMethodError => e
-          raise("You must define a #parent_id method to use _parent mapping")
+        rescue NoMethodError
+          raise("You must define a #es_parent_id method to use _parent mapping")
         end
       end
       $es.index params
@@ -109,8 +108,12 @@ module ElasticModel::Instrumentation
       $es.delete :index => self.class.es_index_name, :type => self.class.es_type, :id => self.id
     end
 
-    def self.es_parent
-      $es.indices.get_mapping(:index => es_index_name, :type => es_type)[es_type]["_parent"]
+    private
+
+    def self.es_parent_present?
+      es_index = $es.indices.get_mapping(:index => es_index_name)
+      es_type_mapping = es_index[es_index_name][es_type]
+      !es_type_mapping.nil? && !es_type_mapping["_parent"].nil?
     end
   end
 end

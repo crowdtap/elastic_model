@@ -98,6 +98,9 @@ describe ElasticModel::Instrumentation do
         include ElasticModel::Instrumentation
         es_index_name "test_classes"
         es_type "parent_test_type"
+
+        create_es_index
+        create_es_mappings
       end
 
       test_class.class_eval do
@@ -107,8 +110,6 @@ describe ElasticModel::Instrumentation do
         })
         es_index_name "test_classes"
       end
-      parent_class.create_es_index
-      parent_class.create_es_mappings
 
       test_class.create_es_index
       test_class.create_es_mappings
