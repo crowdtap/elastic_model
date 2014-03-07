@@ -20,5 +20,5 @@ def es_mapping_for(model)
 end
 
 def es_mapping_properties_for(model)
-  es_mapping_for(model)[model.base_class_name]['properties']
+  es_mapping_for(model)[model.es_type]['properties']
 end
