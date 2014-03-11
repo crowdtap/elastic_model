@@ -97,8 +97,7 @@ module ElasticModel::Instrumentation
       }
       if self.class.has_es_parent?
         begin
-          params[:parent]  = self.es_parent_id
-          params[:routing] = self.es_parent_id
+          params[:parent] = self.es_parent_id
         rescue NoMethodError
           raise("You must define a #es_parent_id method to use _parent mapping")
         end
