@@ -3,4 +3,4 @@ development:
     default:
       database: elastic_model
       hosts:
-        - localhost:27017
+        - localhost:<%= ENV['BOXEN_MONGODB_PORT'] || 27017 %>
