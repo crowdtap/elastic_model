@@ -10,7 +10,7 @@ require 'pry'
 Mongoid.load!('./spec/config/mongoid.yml')
 
 RSpec.configure do |config|
-  config.color_enabled = true
+  config.color = true
   config.include DefineConstantHelpers
   config.mock_with :mocha
 end

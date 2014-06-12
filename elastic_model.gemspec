@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.5"
   spec.add_development_dependency "rake"
-  spec.add_development_dependency "rspec"
+  spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "rspec-mocks"
   spec.add_development_dependency "mocha", "0.9.8"
   spec.add_development_dependency "bourne"
@@ -36,6 +36,6 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency "mongoid"
   spec.add_runtime_dependency "bson_ext"
-  spec.add_runtime_dependency "elasticsearch", "~> 0.4"
+  spec.add_runtime_dependency "elasticsearch", "~> 1.0.2"
   spec.add_runtime_dependency "rails", "~> 3.2"
 end

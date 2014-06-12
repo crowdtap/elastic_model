@@ -16,9 +16,9 @@ RSpec::Matchers.define :have_mapping_for do |field_name, hash|
 end
 
 def es_mapping_for(model)
-  $es.indices.get_mapping :index => model.es_index_name, :type => model.es_type
+  $es.indices.get_mapping :index => model.es_index_name
 end
 
 def es_mapping_properties_for(model)
-  es_mapping_for(model)[model.es_type]['properties']
+  es_mapping_for(model)[model.es_index_name]['mappings'][model.es_type]['properties']
 end
