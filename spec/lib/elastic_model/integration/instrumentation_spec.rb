@@ -34,7 +34,6 @@ describe ElasticModel::Instrumentation do
       test_class.create_es_index
 
       settings = $es.indices.get_settings
-      # binding.pry
       settings[test_class.es_index_name]["settings"]["index"]["number_of_replicas"].to_i.should == 0
       settings[test_class.es_index_name]["settings"]["index"]["number_of_shards"].to_i.should == 1
     end
