@@ -33,7 +33,7 @@ describe ElasticModel::Callbacks do
     end
 
     context "when a parent es_type is not defined for the index" do
-      it "doesn't raise when saving the index" do
+      it "doesn't raise when saving to the index" do
         expect do
           valid_associated_class.create(:count => 1, :parent_association => parent_instance)
         end.to_not raise_error
