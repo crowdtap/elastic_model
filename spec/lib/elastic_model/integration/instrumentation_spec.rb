@@ -118,8 +118,8 @@ describe ElasticModel::Instrumentation do
 
     it "creates a mapping with the mapping options set" do
       test_index = $es.indices.get_mapping :index => test_class.es_index_name
-      test_index[test_class.es_index_name][test_class.es_type].should_not be_nil
-      child_index = test_index[test_class.es_index_name][test_class.es_type]
+      test_index[test_class.es_index_name]['mappings'][test_class.es_type].should_not be_nil
+      child_index = test_index[test_class.es_index_name]['mappings'][test_class.es_type]
       child_index["_parent"].should == { "type" => "parent_test_type" }
     end
   end
