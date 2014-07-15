@@ -37,5 +37,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "mongoid"
   spec.add_runtime_dependency "bson_ext"
   spec.add_runtime_dependency "elasticsearch", "~> 1.0.2"
-  spec.add_runtime_dependency "rails", "~> 3.2"
+  spec.add_runtime_dependency "rails", "~> 4.1.0"
 end

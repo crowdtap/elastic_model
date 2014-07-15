@@ -72,6 +72,8 @@ describe ElasticModel::Callbacks do
           include ElasticModel::Callbacks
           belongs_to :parent_association
 
+          field :count, :type => Integer
+
           es_index_name "test_classes"
           es_mapping_options({
             :_parent  => { :type => "parent_test_type" },
