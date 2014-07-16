@@ -1,6 +1,12 @@
 development:
   sessions:
     default:
-      database: elastic_model
+      database: elastic_model_development
+      hosts:
+        - localhost:<%= ENV['BOXEN_MONGODB_PORT'] || 27017 %>
+test:
+  sessions:
+    default:
+      database: elastic_model_test
       hosts:
         - localhost:<%= ENV['BOXEN_MONGODB_PORT'] || 27017 %>

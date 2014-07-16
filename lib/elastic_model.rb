@@ -2,6 +2,8 @@ require 'rails'
 require 'mongoid'
 require 'elasticsearch'
 
+require 'elastic_model/bson_monkeypatch'
+
 require 'elastic_model/version'
 require 'elastic_model/instrumentation'
 require 'elastic_model/callbacks'
