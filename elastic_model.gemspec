@@ -30,8 +30,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "mocha", "0.9.8"
   spec.add_development_dependency "bourne"
-  spec.add_development_dependency "awesome_print"
-  spec.add_development_dependency "pry"
 
   spec.add_runtime_dependency "rails", ">= 3"
   spec.add_runtime_dependency "mongoid", ">= 3"
