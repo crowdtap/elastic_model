@@ -1,15 +1,4 @@
 source 'https://rubygems.org'
 gemspec
 
-gem 'rake'
-gem 'rspec', '~> 2.99.0'
-gem 'rspec-retry', :require => false
-gem 'mocha',       :require => false
-gem 'simplecov',   :require => false
-gem 'coveralls',   :require => false
-
-gem 'mongoid', '~> 4.0.0.beta1'
-
-group :development do
-  gem 'pry'
-end
+gem 'mongoid', '~> 4.0.0'
