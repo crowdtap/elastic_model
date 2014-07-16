@@ -1,1 +1,1 @@
-elastic_model.gemspec
+../elastic_model.gemspec
