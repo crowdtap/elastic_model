@@ -34,8 +34,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "awesome_print"
   spec.add_development_dependency "pry"
 
-  spec.add_runtime_dependency "mongoid"
+  spec.add_runtime_dependency "activesupport", ">= 3"
+  spec.add_runtime_dependency "mongoid", ">= 3"
   spec.add_runtime_dependency "bson_ext"
   spec.add_runtime_dependency "elasticsearch", "~> 1.0.2"
-  spec.add_runtime_dependency "rails", "~> 4.1.0"
 end
