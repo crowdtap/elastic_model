@@ -10,7 +10,7 @@ RSpec::Matchers.define :have_mapping_for do |field_name, hash|
     end
   end
 
-  failure_message_for_should do
+  failure_message do
     "#{@field_name} got: #{@mapping}, expected: #{@hash}"
   end
 end
