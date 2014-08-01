@@ -49,9 +49,21 @@ describe ElasticModel::Instrumentation do
   end
 
   describe '.mapping_for & .create_es_mappings' do
+    before do
+      test_class.class_eval do
+        field :text_field
+        field :integer_field
+        field :indexed_text_field
+      end
+    end
+
     context 'when mapping is not existing' do
       before do
         test_class.class_eval do
+          field :text_field
+          field :integer_field
+          field :indexed_text_field
+
           mapping_for :text_field,         { :type => 'string', :index => 'not_analyzed' }
           mapping_for :integer_field,      { :type => 'integer' }
           mapping_for :indexed_text_field, { :type => 'string', :analyzer => 'snowball' }
@@ -138,6 +150,11 @@ describe ElasticModel::Instrumentation do
   describe '.save_to_es!' do
     it "saves to Elasticsearch always" do
       test_class.class_eval do
+        field :text_field
+        field :integer_field
+        field :indexed_text_field
+
+        mapping_for :_id,                { :type => 'string', :index => 'not_analyzed' }
         mapping_for :text_field,         { :type => 'string', :index => 'not_analyzed' }
         mapping_for :integer_field,      { :type => 'integer' }
         mapping_for :indexed_text_field, { :type => 'string', :analyzer => 'snowball' }
