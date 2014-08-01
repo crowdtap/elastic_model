@@ -34,8 +34,8 @@ describe ElasticModel::Instrumentation do
       test_class.create_es_index
 
       settings = $es.indices.get_settings
-      settings[test_class.es_index_name]["settings"]["index.number_of_replicas"].to_i.should == 0
-      settings[test_class.es_index_name]["settings"]["index.number_of_shards"].to_i.should == 1
+      settings[test_class.es_index_name]["settings"]["index"]["number_of_replicas"].to_i.should == 0
+      settings[test_class.es_index_name]["settings"]["index"]["number_of_shards"].to_i.should == 1
     end
 
     it 'does not raise error when index is already existing' do
@@ -58,7 +58,7 @@ describe ElasticModel::Instrumentation do
         test_class.create_es_index
         test_class.create_es_mappings
 
-        test_class.should have_mapping_for(:text_field,         :type => 'string', :index    => 'not_analyzed', :omit_norms => true, :index_options => 'docs')
+        test_class.should have_mapping_for(:text_field,         :type => 'string', :index    => 'not_analyzed')
         test_class.should have_mapping_for(:integer_field,      :type => 'integer')
         test_class.should have_mapping_for(:indexed_text_field, :type => 'string', :analyzer => 'snowball')
       end
@@ -117,8 +117,8 @@ describe ElasticModel::Instrumentation do
 
     it "creates a mapping with the mapping options set" do
       test_index = $es.indices.get_mapping :index => test_class.es_index_name
-      test_index[test_class.es_index_name][test_class.es_type].should_not be_nil
-      child_index = test_index[test_class.es_index_name][test_class.es_type]
+      test_index[test_class.es_index_name]['mappings'][test_class.es_type].should_not be_nil
+      child_index = test_index[test_class.es_index_name]['mappings'][test_class.es_type]
       child_index["_parent"].should == { "type" => "parent_test_type" }
     end
   end

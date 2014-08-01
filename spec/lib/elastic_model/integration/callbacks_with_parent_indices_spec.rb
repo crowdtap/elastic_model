@@ -33,7 +33,7 @@ describe ElasticModel::Callbacks do
     end
 
     context "when a parent es_type is not defined for the index" do
-      it "doesn't raise when saving the index" do
+      it "doesn't raise when saving to the index" do
         expect do
           valid_associated_class.create(:count => 1, :parent_association => parent_instance)
         end.to_not raise_error
@@ -74,7 +74,8 @@ describe ElasticModel::Callbacks do
 
           es_index_name "test_classes"
           es_mapping_options({
-            :_parent => { :type => "parent_test_type" }
+            :_parent  => { :type => "parent_test_type" },
+            :_routing => { :path => "parent_association_id", :required => false }
           })
 
           create_es_index
@@ -95,9 +96,10 @@ describe ElasticModel::Callbacks do
           test_instance.save!
         end.to_not raise_error
 
-        res = $es.get :index => valid_child_class.es_index_name,
-                      :type  => valid_child_class.es_type,
-                      :id    => test_instance.id
+        res = $es.get :index   => valid_child_class.es_index_name,
+                      :type    => valid_child_class.es_type,
+                      :routing => test_instance.parent_association_id,
+                      :id      => test_instance.id
         res['_source']['parent_association_id'].should == parent_instance.id.to_s
       end
     end
