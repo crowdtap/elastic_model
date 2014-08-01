@@ -80,6 +80,9 @@ module ElasticModel::Instrumentation
     end
 
     def self.mapping_for(field_name, options = {})
+      symbolized_keys = self.new.as_json.keys.map(&:to_sym)
+      raise MissingFieldException unless symbolized_keys.include?(field_name.to_sym)
+
       class_variable_get('@@es_mappings_var')[field_name] = options
     end
 
@@ -88,6 +91,10 @@ module ElasticModel::Instrumentation
     end
 
     def save_to_es!
+      symbolized_keys = self.as_json.keys.map(&:to_sym)
+      mapping_keys = self.class.class_variable_get('@@es_mappings_var').keys.map(&:to_sym)
+      raise MissingMappingException unless (symbolized_keys & mapping_keys).length == symbolized_keys.length
+
       body   = self.as_json
       params = {
         :index => self.class.es_index_name,
@@ -116,3 +123,6 @@ module ElasticModel::Instrumentation
     end
   end
 end
+
+class MissingFieldException < Exception; end
+class MissingMappingException < Exception; end

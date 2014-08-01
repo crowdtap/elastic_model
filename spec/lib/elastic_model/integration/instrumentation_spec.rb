@@ -15,6 +15,10 @@ describe ElasticModel::Instrumentation do
     define_constant('test_class') do
       include Mongoid::Document
       include ElasticModel::Instrumentation
+
+      def as_json
+        { :text_field => '', :integer_field => 0, :indexed_text_field => '' }
+      end
     end
   end
 
@@ -61,6 +65,14 @@ describe ElasticModel::Instrumentation do
         test_class.should have_mapping_for(:text_field,         :type => 'string', :index    => 'not_analyzed')
         test_class.should have_mapping_for(:integer_field,      :type => 'integer')
         test_class.should have_mapping_for(:indexed_text_field, :type => 'string', :analyzer => 'snowball')
+      end
+
+      it 'raises when the mapping is not in the json representation of the object' do
+        expect do
+          test_class.class_eval do
+            mapping_for :fake_field
+          end
+        end.to raise_error(MissingFieldException)
       end
     end
 
@@ -126,9 +138,14 @@ describe ElasticModel::Instrumentation do
   describe '.save_to_es!' do
     it "saves to Elasticsearch always" do
       test_class.class_eval do
+        mapping_for :text_field,         { :type => 'string', :index => 'not_analyzed' }
+        mapping_for :integer_field,      { :type => 'integer' }
+        mapping_for :indexed_text_field, { :type => 'string', :analyzer => 'snowball' }
+
         create_es_index
         create_es_mappings
       end
+
       instance = test_class.new
 
       instance.save_to_es!
@@ -137,6 +154,12 @@ describe ElasticModel::Instrumentation do
       instance.save_to_es!
       results = $es.get :index => test_class.es_index_name, :id => instance.id
       results["_version"].to_i.should == 2
+    end
+
+    it "raises an error when mappings are missing" do
+      instance = test_class.new
+
+      expect { instance.save_to_es! }.to raise_error(MissingMappingException)
     end
   end
 end
