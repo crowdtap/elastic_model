@@ -29,9 +29,9 @@ describe ElasticModel::Callbacks do
         belongs_to :parent_association
         es_index_name "test_classes"
 
-        mapping_for :_id, { :type => 'string', :index => 'not_analyzed' }
+        mapping_for :_id,                   { :type => 'string', :index => 'not_analyzed' }
         mapping_for :parent_association_id, { :type => 'string', :index => 'not_analyzed' }
-        mapping_for :count, { :type => 'integer' }
+        mapping_for :count,                 { :type => 'integer' }
 
         create_es_index
         create_es_mappings
