@@ -62,9 +62,9 @@ describe ElasticModel::Callbacks do
             :_routing => { :path => "parent_association_id" }
           })
 
-          mapping_for :_id, { :type => 'string', :index => 'not_analyzed' }
+          mapping_for :_id,                   { :type => 'string', :index => 'not_analyzed' }
           mapping_for :parent_association_id, { :type => 'string', :index => 'not_analyzed' }
-          mapping_for :count, { :type => 'integer' }
+          mapping_for :count,                 { :type => 'integer' }
 
           create_es_index
           create_es_mappings
@@ -89,9 +89,9 @@ describe ElasticModel::Callbacks do
             :_routing => { :path => "parent_association_id", :required => false }
           })
 
-          mapping_for :_id, { :type => 'string', :index => 'not_analyzed' }
+          mapping_for :_id,                   { :type => 'string', :index => 'not_analyzed' }
           mapping_for :parent_association_id, { :type => 'string', :index => 'not_analyzed' }
-          mapping_for :count, { :type => 'integer' }
+          mapping_for :count,                 { :type => 'integer' }
 
           create_es_index
           create_es_mappings

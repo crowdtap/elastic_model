@@ -122,6 +122,3 @@ module ElasticModel::Instrumentation
     end
   end
 end
-
-class MissingFieldException < Exception; end
-class MissingMappingException < Exception; end

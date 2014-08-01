@@ -12,7 +12,7 @@ describe ElasticModel::Callbacks do
         field :count, :type => Integer
 
         mapping_for :count, { :type => 'integer' }
-        mapping_for :_id, { :type => 'string', :index => 'not_analyzed' }
+        mapping_for :_id,   { :type => 'string', :index => 'not_analyzed' }
       end
     end
     let(:test_instance) { test_class.new(:count => 1) }
