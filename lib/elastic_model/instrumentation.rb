@@ -80,6 +80,9 @@ module ElasticModel::Instrumentation
     end
 
     def self.mapping_for(field_name, options = {})
+      attribute_names = self.new.attribute_names
+      raise MissingFieldException unless attribute_names.include?(field_name.to_s)
+
       class_variable_get('@@es_mappings_var')[field_name] = options
     end
 
@@ -88,6 +91,9 @@ module ElasticModel::Instrumentation
     end
 
     def save_to_es!
+      mapping_keys = self.class.class_variable_get('@@es_mappings_var').keys.map(&:to_s)
+      raise MissingMappingException unless (self.attribute_names & mapping_keys).length == self.attribute_names.length
+
       body   = self.as_json
       params = {
         :index => self.class.es_index_name,

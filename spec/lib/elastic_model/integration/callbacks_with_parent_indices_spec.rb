@@ -10,6 +10,8 @@ describe ElasticModel::Callbacks do
         es_index_name "test_classes"
         es_type "parent_test_type"
 
+        mapping_for :_id, { :type => 'string', :index => 'not_analyzed' }
+
         create_es_index
         create_es_mappings
       end
@@ -26,6 +28,10 @@ describe ElasticModel::Callbacks do
         field :count, :type => Integer
         belongs_to :parent_association
         es_index_name "test_classes"
+
+        mapping_for :_id,                   { :type => 'string', :index => 'not_analyzed' }
+        mapping_for :parent_association_id, { :type => 'string', :index => 'not_analyzed' }
+        mapping_for :count,                 { :type => 'integer' }
 
         create_es_index
         create_es_mappings
@@ -56,6 +62,10 @@ describe ElasticModel::Callbacks do
             :_routing => { :path => "parent_association_id" }
           })
 
+          mapping_for :_id,                   { :type => 'string', :index => 'not_analyzed' }
+          mapping_for :parent_association_id, { :type => 'string', :index => 'not_analyzed' }
+          mapping_for :count,                 { :type => 'integer' }
+
           create_es_index
           create_es_mappings
 
@@ -72,11 +82,16 @@ describe ElasticModel::Callbacks do
           include ElasticModel::Callbacks
           belongs_to :parent_association
 
+          field :count, :type => Integer
           es_index_name "test_classes"
           es_mapping_options({
             :_parent  => { :type => "parent_test_type" },
             :_routing => { :path => "parent_association_id", :required => false }
           })
+
+          mapping_for :_id,                   { :type => 'string', :index => 'not_analyzed' }
+          mapping_for :parent_association_id, { :type => 'string', :index => 'not_analyzed' }
+          mapping_for :count,                 { :type => 'integer' }
 
           create_es_index
           create_es_mappings

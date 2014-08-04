@@ -13,4 +13,7 @@ RSpec.configure do |config|
   config.color = true
   config.include DefineConstantHelpers
   config.mock_with :mocha
+  config.expect_with :rspec do |c|
+    c.syntax = [:should, :expect]
+  end
 end

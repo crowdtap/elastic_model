@@ -10,6 +10,9 @@ describe ElasticModel::Callbacks do
         create_es_index
 
         field :count, :type => Integer
+
+        mapping_for :count, { :type => 'integer' }
+        mapping_for :_id,   { :type => 'string', :index => 'not_analyzed' }
       end
     end
     let(:test_instance) { test_class.new(:count => 1) }
