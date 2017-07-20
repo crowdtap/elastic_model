@@ -14,7 +14,11 @@ module ElasticModel::Instrumentation
     end
 
     def self.default_es_index_name
-      "#{Rails.env}_#{base_class_name.pluralize}"
+      if Rails.env.staging?
+       "production_#{base_class_name.pluralize}"
+      else
+       "#{Rails.env}_#{base_class_name.pluralize}"
+      end
     end
 
     def self.es_index_name(value=nil)
@@ -22,7 +26,11 @@ module ElasticModel::Instrumentation
         class_variable_set('@@es_index_name_var', value)
       else
         if class_variable_get('@@es_index_name_var')
-          "#{Rails.env}_#{class_variable_get('@@es_index_name_var')}"
+          if Rails.env.staging?
+            "production_#{class_variable_get('@@es_index_name_var')}"
+          else
+            "#{Rails.env}_#{class_variable_get('@@es_index_name_var')}"
+          end
         else
           self.default_es_index_name
         end
