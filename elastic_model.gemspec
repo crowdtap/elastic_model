@@ -35,6 +35,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry"
 
   spec.add_runtime_dependency "mongoid"
+  spec.add_runtime_dependency "faraday"
+  spec.add_runtime_dependency "multi_json"
   spec.add_runtime_dependency "bson_ext"
   spec.add_runtime_dependency "elasticsearch", "~> 1.0.2"
   spec.add_runtime_dependency "rails", "~> 3.2"
